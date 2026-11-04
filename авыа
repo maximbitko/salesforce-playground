@@ -1,0 +1,19 @@
+public with sharing class ApexExample {
+    public static List<Account> getAccountsByName(String namePrefix) {
+        String searchValue = String.isBlank(namePrefix) ? '%' : namePrefix + '%';
+
+        return [
+            SELECT Id, Name, BillingCity
+            FROM Account
+            WHERE Name LIKE :searchValue
+            ORDER BY Name
+            LIMIT 10
+        ];
+    }
+
+    public static Account createAccount(String accountName) {
+        Account acc = new Account(Name = accountName);
+        insert acc;
+        return acc;
+    }
+}
